@@ -52,8 +52,8 @@ console.log(a,typeof a);
 console.log(ad(1, 2));
 ```
 * 运行指令
-    * 开发版本：webpack src/js/index.js -0 dist/js/index.js --mode development
-    * 生产版本：webpack src/js/index.js -0 dist/js/index.js --mode production
+    * 开发版本：webpack src/js/index.js -o dist/js/index.js --mode development
+    * 生产版本：webpack src/js/index.js -o dist/js/index.js --mode production
 * 结论
     * webpack能编译js和json文件
     * 能将es6模块转化为浏览器能识别的语言
