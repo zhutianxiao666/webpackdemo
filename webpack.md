@@ -62,3 +62,72 @@ console.log(ad(1, 2));
     * 不能编译其他文件
     * 不能将es6的语法变成es5
 * 改善：使用webpack配置文件解决，自定义功能
+    * 新建webpack.config.js
+    * 编辑内容
+```javascript
+const path = require('path');
+const obj = {
+    entry: path.join(__dirname,'src','js','index.js'),
+    output:{
+        path: path.join(__dirname,'dist','js'),
+        filename: "index.js"
+    },
+    mode:'production'
+}
+module.exports = obj;
+```
+    * entry全写
+```javascript
+entry: {
+    爱叫啥叫啥: '路径'
+}
+```
+## loader
+要解析非js json文件，可以用到loader
+
+如何找到loader呢？
+
+一般loader命名规则为 xxxx-loader xxxx为解决的问题。
+
+比如要解决less编译问题就找less-loader
+
+### 下载
+要使用less-loader编译成功，需要下载3个loader以及less模块
+```$xslt
+npm install less-loader style-loader css-loader less -D
+```
+### 配置
+在webpack.config.js中添加配置
+```javascript
+const path = require('path');
+const obj = {
+    // ....
+    module: {
+        // 如果单个loader 只要写一个loader就可以(但是less需要很多loader)
+        rules: [{
+            test: /\.less$/,
+            loader: 'less-loader'
+            
+        }],
+        // 如果是多个loader 就写入use中
+        rules: [{
+            test: /\.less$/,
+            use:[
+                'style-loader',
+                'css-loader',
+                'less-loader'
+            ]
+        }],
+        // use的全写是 一个个属性名为loader的对象的对象，
+        rules: [{
+            test: /\.less$/,
+            use:[
+                {loader: "style-loader"},
+                {loader: "css-loader"},
+                {loader: "less-loader"}
+            ]
+        }]
+    }
+}
+module.exports = obj;
+```
