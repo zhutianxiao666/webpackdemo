@@ -1,0 +1,30 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13522897",
+      "name": "低领衫",
+      "font_class": "dilingshan",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "13522898",
+      "name": "长裙",
+      "font_class": "changqun",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "17945742",
+      "name": "基本icon_购物",
+      "font_class": "jibenicon_gouwu",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    }
+  ]
+}
