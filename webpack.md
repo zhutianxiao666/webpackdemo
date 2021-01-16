@@ -1,3 +1,5 @@
+
+
 #   webpack
 
 webpack是一个构建工具，用来构建项目
@@ -185,7 +187,7 @@ npm install babel-loader @babel/core @babel/preset-env -D
 #### webpack.config.js 配置
 ```js
 {
-    test: /\.js/,
+    test: /\.js$/,
     exclude: /node_modules/,
     use: {
         loader: "babel-loader",
@@ -257,7 +259,7 @@ npm i core-js
 ### 打包样式文件中的图片资源
 **安装**
 ```$xslt
-npm intall file-loader url-loader -D
+npm install file-loader@4.3.0 url-loader@2.3.0 -D
 ```
 **配置webpack.config.js**
 
@@ -270,7 +272,7 @@ npm intall file-loader url-loader -D
             limit: 8192,  // 8kb一下的图片转化为 base64处理
             outputPath:'images',  //文件输出路径
             publicPath: '../dist/images', // 图片的url地址
-            name:'[hash:5].[ext]' // 修改哈希值取前五位，后面保留文件后缀
+            name:'img/[name].[hash:5].[ext]' // 修改哈希值取前五位，后面保留文件后缀 前面的img指定了存放路径
         }
     }
 }
@@ -281,6 +283,7 @@ webpack
 ### 打包html文件
 需要依赖plugin
 **下载**
+
 ```text
 npm i html-webpack-plugin -D
 
@@ -375,7 +378,7 @@ devServer: {
 ```text
 "build": "webpack  --config ./config/webpack.prod.js",
 "start": "webpack-dev-server  --config ./config/webpack.dev.js"
-``` 
+```
 * 修改两个webpack文件中的地址的配置
 ```javascript
 output:{
@@ -532,3 +535,120 @@ plugins: [
         })]
 ```
 如此配置后，加工的html就是压缩的文件
+
+### package.json
+
+```javascript
+{
+  "name": "webpack03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack  --config ./config/webpack.prod.js",
+    "start": "webpack-dev-server  --config ./config/webpack.dev.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "autoprefixer": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.0.1",
+    "eslint": "^7.16.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-mocha": "^8.0.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^1.3.2",
+    "html-webpack-plugin": "^4.5.0",
+    "less": "^4.0.0",
+    "less-loader": "^7.2.1",
+    "mini-css-extract-plugin": "^1.3.3",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "postcss": "^8.2.2",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^4.1.0",
+    "postcss-normalize": "^9.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "vue-eslint-parser": "^7.3.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "core-js": "^3.8.1"
+  }
+}
+
+```
+
+### 模块引入解析(省略后缀)
+
+webpack.config.js中配置如下
+
+```javascript
+resolve: {
+    extensions: ['.js','.vue']
+}
+```
+
+### 模块路径别名
+
+webpack.config.js中的配置如下
+
+```javascript
+resolve: {
+    extensions: ['.js','.vue'],
+    alias: {
+    "@":path.resolve(__dirname,'src')
+    }
+}
+```
+
+入口js文件中可以如此修改
+
+```javascript
+import App from '@/vue/app';
+```
+
+### 引入vue单文件的第二种方式
+
+让vue取
+
+```javascript
+import Vue from 'vue';
+import App from '@/vue/app';
+new Vue({
+    el:'#app',
+    components: {
+        App
+    },
+    template:'<App/>'
+});
+```
+
+但是编译报错,原因是render带有vue-template-compiler
+
+而vue引入默认是用"main": "dist/vue.runtime.common.js"文件
+
+在webpack.config中配置修改引入，引入vue.esm.js文件
+
+```javascript
+resolve: {
+    extensions: ['.js','.vue'],
+    alias: {
+        "@":path.resolve(__dirname,'src'),
+        "vue$":"vue/dist/vue.esm.js"
+    }
+}
+```
+
+
+

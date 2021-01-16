@@ -91,7 +91,8 @@ const obj = {
     // 配置插件
     plugins: [
         new htmlWebpackPlugin({
-            template: "./src/index.html"
+            template: "./src/index.html",
+            filename:'html/index.html'
         })
     ],
     // 配置自动会编译
